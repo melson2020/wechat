@@ -51,7 +51,6 @@ public class ProductResource extends BaseResource{
         List<Product> users=productService.FindByRecommend();
         Result result=new Result(users);
         long t2 = new Date().getTime();
-//        test
         System.out.println("GET Rest Call: /product/recommendList ..."+(t2-t1));
         return result;
     }
