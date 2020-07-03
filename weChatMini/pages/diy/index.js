@@ -14,10 +14,11 @@ Page({
     canvas:{},
     ctx:{},
     boxModule: {
-      length: 300,
-      width: 160,
-      height: 180
+      length: 320,
+      width: 180,
+      height: 160
     },//单位rpx
+    boxModulePhixel:{},
     baseArea: 700,//单位rpx
     piclist: []
   },
@@ -59,7 +60,8 @@ Page({
   onReady: function () {
     //获取canvas 对象
     var that = this;
-    const query = wx.createSelectorQuery()   
+    const query = wx.createSelectorQuery()
+    //初始化canvas
     query.select('#cutImg').fields({ node: true, size: true })
     .exec((res) => {
       const canvas = res[0].node
@@ -71,9 +73,17 @@ Page({
       //设置canvas context的图片缩放比
       ctx.scale(1,1)
       that.setData({canvas,ctx})
-      that.drawPic('../../images/goods/phone.png').then(function(){that.drawCutModule()}).catch((msg)=>{
-        console.log('画图失败',msg)
-      })
+      //设置canvas 结束，开始计算剪切模型实际像素值
+      that.computeModulePhixel()
+      var firstpic=that.data.piclist.length>=2?that.data.piclist[0]:undefined
+      console.log(firstpic)
+      if(firstpic){
+        console.log('画出第一张图')
+        that.draw(firstpic.host+firstpic.path)
+      }else{
+        console.log('画出模型')
+        that.drawCutModule()
+      }    
     }) 
   },
 
@@ -83,8 +93,8 @@ Page({
     var imageSrc = that.data.piclist.filter((item) => {
       return item.id == imageId
     })
-    console.log('click edit button', imageSrc[0].src)
-    that.drawPic(imageSrc[0].src)
+    console.log('click edit button', imageSrc[0].host+imageSrc[0].path)
+    that.draw(imageSrc[0].host+imageSrc[0].path)
   },
   addPicture: function () {
     var that = this
@@ -147,6 +157,13 @@ Page({
      })
   },
 
+  draw:function(path){
+    var that=this
+    that.drawPic(path).then(function(){that.drawCutModule()}).catch((msg)=>{
+      console.log('画图失败',msg)
+    })
+  },
+
   drawPic: function (path) {
     var that=this
     var canvas=that.data.canvas
@@ -170,13 +187,46 @@ Page({
     })
   },
 
+  //计算出模型的像素尺寸，并且存至缓冲区
+  computeModulePhixel:function(){
+    var that=this;
+    var marginLeftAndRight = (that.data.baseArea - that.data.boxModule.height * 2 - that.data.boxModule.length) / 2;
+    var marginTopAndBottom=(that.data.baseArea - that.data.boxModule.height * 2 - that.data.boxModule.width*2) / 2
+    console.log('左右边距：：：', marginLeftAndRight)
+    console.log('上下边距：：：', marginTopAndBottom)
+    let img_w = that.data.picRealPixel.width,
+        img_h = that.data.picRealPixel.height;
+        console.log('canvas 像素尺寸',img_w,img_h)
+    let rateHeight = (1 / that.data.baseArea) * img_h,
+      rateWidth = (1 / that.data.baseArea) * img_w;
+    var boxModulePhixel = {
+      length: that.data.boxModule.length * rateWidth,
+      width: that.data.boxModule.width * rateHeight,
+      height: that.data.boxModule.height * rateHeight,
+      marginLeftAndRight:marginLeftAndRight*rateWidth,
+      marginTopAndBottom:marginTopAndBottom*rateHeight
+    }
+    that.setData({'boxModulePhixel':boxModulePhixel})
+    console.log('模型的像素尺寸为',boxModulePhixel)
+  },
+
   drawCutModule:function(){
      var that=this;
-     var context = that.data.ctx; 　
-     context.strokeStyle = "#ff0000";　
-     context.setLineDash([3, 3])
-     context.moveTo(50,50) 
-     context.lineTo(50,200) 
+     var context = that.data.ctx;
+     var modulePhixel=that.data.boxModulePhixel;
+     context.strokeStyle = "#ff0000";
+     context.fillStyle = "rgba(238,86,16,0.1)";　
+     context.setLineDash([2, 3])
+     var pointStart1={x:modulePhixel.marginLeftAndRight+modulePhixel.height,y:modulePhixel.marginTopAndBottom}
+     var pointStart2={x:modulePhixel.marginLeftAndRight,y:modulePhixel.marginTopAndBottom+modulePhixel.height}
+     console.log('起始点',pointStart1)
+     //画出长方形及其边框
+     context.strokeRect(pointStart1.x,pointStart1.y,modulePhixel.length,modulePhixel.height*2+modulePhixel.width*2)
+     context.fillRect(pointStart1.x,pointStart1.y,modulePhixel.length,modulePhixel.height*2+modulePhixel.width*2)
+     context.strokeRect(pointStart2.x,pointStart2.y,modulePhixel.length+modulePhixel.height*2,modulePhixel.width)
+     context.fillRect(pointStart2.x,pointStart2.y,modulePhixel.length+modulePhixel.height*2,modulePhixel.width)
+     context.moveTo(pointStart1.x,pointStart1.y+modulePhixel.height*2+modulePhixel.width)
+     context.lineTo(pointStart1.x+modulePhixel.length,pointStart1.y+modulePhixel.height*2+modulePhixel.width)
      context.stroke();
   },
 
@@ -190,6 +240,7 @@ Page({
   cutPage: function (value) {
     var that = this;
     var marginLeftAndRight = (that.data.baseArea - that.data.boxModule.height * 2 - that.data.boxModule.length) / 2;
+    var marginTopAndBottom=(that.data.baseArea - that.data.boxModule.height * 2 - that.data.boxModule.width*2) / 2
     console.log('左右边距：：：', marginLeftAndRight)
     let img_w = that.data.picRealPixel.width,
       img_h = that.data.picRealPixel.height;
@@ -197,7 +248,7 @@ Page({
       rateWidth = (1 / that.data.baseArea) * img_w;
     var ponitA = {
       x: (that.data.boxModule.height + marginLeftAndRight) * rateWidth,
-      y: marginLeftAndRight * rateHeight
+      y: marginTopAndBottom * rateHeight
     }
     var boxModulePhixel = {
       length: that.data.boxModule.length * rateWidth,
@@ -213,7 +264,7 @@ Page({
       height: boxModulePhixel.height,
       destWidth: boxModulePhixel.length,
       destHeight: boxModulePhixel.height,
-      canvasId: 'cutImg',
+      canvas: that.data.canvas,
       success: function (res) {
         console.log('pageA', res.tempFilePath)
         that.setData({
@@ -231,7 +282,7 @@ Page({
           height: boxModulePhixel.width,
           destWidth: boxModulePhixel.height,
           destHeight: boxModulePhixel.width,
-          canvasId: 'cutImg',
+          canvas: that.data.canvas,
           success: function (res) {
             console.log('pageB', res.tempFilePath)
             that.setData({
@@ -249,7 +300,7 @@ Page({
               height: boxModulePhixel.width,
               destWidth: boxModulePhixel.length,
               destHeight: boxModulePhixel.width,
-              canvasId: 'cutImg',
+              canvas: that.data.canvas,
               success: function (res) {
                 console.log('pageE', res.tempFilePath)
                 that.setData({
@@ -267,7 +318,7 @@ Page({
                   height: boxModulePhixel.width,
                   destWidth: boxModulePhixel.height,
                   destHeight: boxModulePhixel.width,
-                  canvasId: 'cutImg',
+                  canvas: that.data.canvas,
                   success: function (res) {
                     console.log('pageD', res.tempFilePath)
                     that.setData({
@@ -285,7 +336,7 @@ Page({
                       height: boxModulePhixel.height,
                       destWidth: boxModulePhixel.length,
                       destHeight: boxModulePhixel.height,
-                      canvasId: 'cutImg',
+                      canvas: that.data.canvas,
                       success: function (res) {
                         console.log('pageC', res.tempFilePath)
                         that.setData({
@@ -303,7 +354,7 @@ Page({
                           height: boxModulePhixel.width,
                           destWidth: boxModulePhixel.length,
                           destHeight: boxModulePhixel.width,
-                          canvasId: 'cutImg',
+                          canvas: that.data.canvas,
                           success: function (res) {
                             console.log('pageF', res.tempFilePath)
                             that.setData({

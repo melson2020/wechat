@@ -53,7 +53,7 @@
 
 .borderDashed {
   border: 1px dashed red;
-  background-color: rgba(153, 147, 147, 0.65);
+  background-color: rgb(238, 86, 16);
 }
 
 .scroll-view-item_H {

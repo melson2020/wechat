@@ -23,7 +23,7 @@
 
 
 	<view class="picDesigin">
-		<canvas type='2d' class="holePage" id="cutImg" force-use-old-canvas="true">
+		<canvas type='2d' class="holePage" id="cutImg">
 			<!-- <view class="pageBox">
 				<cover-view class="pageRow">
 					<cover-view class="borderDashed" style="height:{{boxModule.height}}rpx;width:{{boxModule.length}}rpx;border-bottom:none"></cover-view>

@@ -42,7 +42,7 @@ Page({
                     })
                   }
                 }).catch((error) => {
-                  console.log('getUserInfo sucesss exception', error)
+                  console.log('getUserInfo exception', error)
                 })
               },
             })
