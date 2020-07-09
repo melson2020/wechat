@@ -23,7 +23,9 @@
 
 
 	<view class="picDesigin">
-		<canvas type='2d' class="holePage" id="cutImg">
+	  <!--模拟图层 cutImg为底部图像 layer模拟遮罩层-->
+		<canvas type='2d' class="holePage" id="cutImg" force-use-old-canvas="true">
+		<canvas type='2d' class="holePage" id='layer' force-use-old-canvas="true"></canvas>
 			<!-- <view class="pageBox">
 				<cover-view class="pageRow">
 					<cover-view class="borderDashed" style="height:{{boxModule.height}}rpx;width:{{boxModule.length}}rpx;border-bottom:none"></cover-view>

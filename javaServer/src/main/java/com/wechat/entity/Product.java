@@ -13,12 +13,21 @@ public class Product {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private BigDecimal price;
+    private Double price;
     private String category;
     private Integer recommend;
     private String host;
     private String src;
     private String description;
+    private String priceUnit;
+
+    public String getPriceUnit() {
+        return priceUnit;
+    }
+
+    public void setPriceUnit(String priceUnit) {
+        this.priceUnit = priceUnit;
+    }
 
     public Integer getId() {
         return id;
@@ -36,11 +45,11 @@ public class Product {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

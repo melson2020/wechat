@@ -76,8 +76,12 @@ Component({
       switch (e.type) {
         case 'touchstart':
           let touchstart = e.touches[0];
-          [startX, startY] = [touchstart.pageX, touchstart.pageY];
-          [lastX, lastY] = [startX, startY];
+          startX=touchstart.pageX
+          startY=touchstart.pageY
+          lastX=startX
+          lastY=startY
+          // [startX, startY] = [touchstart.pageX, touchstart.pageY];
+          // [lastX, lastY] = [startX, startY];
           break;
         case 'touchmove':
           let touchmove = e.touches[0];

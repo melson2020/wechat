@@ -72,7 +72,8 @@
 }
 .icon-add::before{
   content: '\e600';
-  font-size: 40rpx;
+  font-size: 80rpx;
+  color: rgb(138,138,138);
 }
 .icon-chose::before{
   content: '\e637';

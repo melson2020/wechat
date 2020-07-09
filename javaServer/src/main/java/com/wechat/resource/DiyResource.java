@@ -37,6 +37,11 @@ public class DiyResource extends BaseResource {
             return result;
         }
         User user=userService.findByToken(vo.getToken());
+        if(user==null){
+            result.setResultStatus(-1);
+            result.setMessage("Access Denied");
+            return result;
+        }
         List<PictureDict> pictureDictList=pictureDictService.findPictures(user.getOpenId());
         result.setResultStatus(1);
         result.setData(pictureDictList);
