@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Nelson on 2020/7/8.
@@ -31,10 +32,21 @@ public class ShoppingCartImpl extends AbstractService<ShoppingCart> implements I
         shoppingCart.setNumber(number);
         shoppingCart.setOpenId(user.getOpenId());
         shoppingCart.setPayed(0);
+        shoppingCart.setProductImageSrc(product.getHost()+product.getSrc());
         shoppingCart.setPrice(product.getPrice());
         shoppingCart.setPriceTotal(totalPrice);
         shoppingCart.setProductId(product.getId());
         shoppingCart.setProductName(product.getName());
         return shoppingCartDao.save(shoppingCart);
+    }
+
+    @Override
+    public List<ShoppingCart> findListWithUser(String openId) {
+        return shoppingCartDao.findAllByOpenId(openId);
+    }
+
+    @Override
+    public void deleteShoppingCart(Integer id) {
+        shoppingCartDao.deleteWithId(id);
     }
 }

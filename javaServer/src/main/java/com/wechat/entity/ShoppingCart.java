@@ -11,7 +11,7 @@ import java.util.Date;
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer Id;
+    private Integer id;
     private String openId;
     private Integer productId;
     private Date createDate;
@@ -20,13 +20,24 @@ public class ShoppingCart {
     private double price;
     private double priceTotal;
     private Integer payed;
+    private String productImageSrc;
+    @Transient
+    private boolean checked;
+
+    public String getProductImageSrc() {
+        return productImageSrc;
+    }
+
+    public void setProductImageSrc(String productImageSrc) {
+        this.productImageSrc = productImageSrc;
+    }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getOpenId() {
@@ -91,5 +102,13 @@ public class ShoppingCart {
 
     public void setPayed(Integer payed) {
         this.payed = payed;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

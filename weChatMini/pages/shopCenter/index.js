@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 const http = app.myRequest()
+var floatObj=require('../../utils/floatObj.js')
 Page({
   data: {
     selectedProd: {},
@@ -9,6 +10,7 @@ Page({
     recommendList: [],
     productionList: [],
     num: 1,
+    show:false,
     adding: false,
     buttons: [{
         className: 'halfScreenButton',
@@ -26,6 +28,10 @@ Page({
     var that = this
     that.loadRecommendList()
     that.loadProductionList()
+  },
+  onShow:function(){
+    var that=this
+    that.setData({'show':false})
   },
   loadRecommendList: function () {
     let that = this
@@ -59,7 +65,7 @@ Page({
       return item.id == selectedId
     })
     if (selectedProds.length >= 0) {
-      let totalPrice = selectedProds[0].price * num
+      let totalPrice = floatObj.multiply(selectedProds[0].price, num)
       that.setData({
         'show': true,
         'selectedProd': selectedProds[0],
@@ -85,7 +91,7 @@ Page({
   getInputNum: function (res) {
     var that = this
     var num = res.detail.value
-    let totalPrice = that.data.selectedProd.price * num
+    let totalPrice = floatObj.multiply(that.data.selectedProd.price, num)
     that.setData({
       num: parseInt(num),
       'selectedProdTotalPrice': totalPrice
@@ -105,7 +111,8 @@ Page({
     if (type == 2) {
       num += 1
     }
-    let totalPrice = selectedProd.price * num
+    // let totalPrice = selectedProd.price * num
+   let totalPrice= floatObj.multiply(selectedProd.price, num)
     that.setData({
       num: num,
       'selectedProdTotalPrice': totalPrice
@@ -120,9 +127,9 @@ Page({
       })
     }
   },
-  addToShoppingCart: function () {  
+  addToShoppingCart: function () {
     var that = this
-    if(that.data.adding){
+    if (that.data.adding) {
       console.log('添加中，无重复操作')
       return
     }
@@ -136,7 +143,7 @@ Page({
     var token = wx.getStorageSync('token')
     http.postRequest('/product/saveShoppingCart', {
       'token': token,
-       data: {
+      data: {
         'product': selectedProd,
         'number': number,
         'totalPrice': totalPrice
@@ -156,6 +163,7 @@ Page({
           icon: 'error'
         })
       }
+      that.setData({'show':false})
     }).catch((error) => {
       that.setData({
         'adding': false
@@ -165,5 +173,5 @@ Page({
         icon: 'false'
       })
     })
-  }
+  },
 })

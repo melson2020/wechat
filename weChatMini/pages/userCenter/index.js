@@ -157,7 +157,6 @@ Page({
     })
   },
   navigateToOrder:function(e){
-    console.log(e.currentTarget.id)
     var selectedId=e.currentTarget.id
     wx.navigateTo({
       url: '/pages/order/index',

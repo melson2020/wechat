@@ -198,7 +198,6 @@ Page({
             'id': '0'
           })
         }
-        console.log('删除完成', piclist)
         that.setData({
           'piclist': piclist
         })
