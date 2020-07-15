@@ -1,0 +1,137 @@
+/**index.wxss**/
+.mainPic {
+  display: flex;
+  flex-direction: column;
+   width: 100%;
+   background-color: white;
+}
+.empty-shoppingCart{
+  background-color: white;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 1000rpx;
+  color: rgb(138,138,138);
+}
+.empty-shoppingCart view{
+   margin:20rpx;
+}
+.empty-icon{
+   display: flex;
+   padding: 30rpx;
+   border-radius: 50%;
+   width:160rpx;
+   height: 160rpx;
+   align-items: center;
+   justify-content: center;
+   border: rgb(187, 222, 243) solid 1px;
+   background-color: rgb(211, 231, 243);
+}
+.go-shopping-button{
+  padding: 20rpx 50rpx;
+  width: auto;
+  text-align: center;
+  background-color:rgb(110, 144, 245);
+  color: wheat;
+  border-radius: 10rpx;
+}
+.itemCard{
+  width: 100vw;
+  border-top:lightgray solid 0.5px;
+  background-color: rgb(243, 240, 240);
+  display: flex;
+  height: 240rpx;
+  align-items: center;
+  z-index: 0;
+}
+.title{
+  margin:10rpx 2vw;
+  font-size: medium;
+  color:rgb(73, 185, 250);
+}
+.cell{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 98vw;
+  background-color: white;
+  padding: 20rpx 0 20rpx 2vw;
+}
+.itemImage{
+  height: 200rpx;
+  border-radius: 10rpx;
+  width: 200rpx;
+}
+.itemText{
+  padding-left: 40rpx;
+  display: flex;
+  flex-direction: column;
+  height: 200rpx;
+}
+.lableSmall{
+  color: rgb(230,67,64);
+  font-size: small;
+  height: 50rpx;
+}
+.lableTitle{
+  font-size: medium;
+  height: 70rpx;
+  font-weight: bold;
+}
+.itemNumView{
+  height: 80rpx;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
+.bottomFixedView{
+  height: 100rpx;
+  font-size: small;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  position: fixed;
+  bottom: 0px;
+  border-top: lightgray solid 1px;
+  background-color:white;
+  z-index: 1;
+}
+
+.bottomRight{
+  display: flex;
+  flex-direction: row;
+}
+.bottomRight view{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 200rpx;
+   height: 100rpx;
+   margin-left: 10rpx;
+   color: white;
+   background-color: rgb(240, 90, 21);
+}
+.bottomRight label{
+   display: flex;
+   align-items: center;
+}
+.totalPrice{
+  color: rgb(230,67,64);
+}
+checkbox .wx-checkbox-input {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+}
+
+.checkBoxAllChecked{
+  margin-left: 20rpx;
+}
+
+
+

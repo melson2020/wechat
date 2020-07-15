@@ -1,0 +1,38 @@
+<!--index.wxml-->
+<view class="page">
+	<view class="mainPic" wx:if='{{hasItems}}'>
+		<view class="title">
+			<label>购物车</label>
+		</view>
+		<view wx:for='{{shoppingCartList}}' wx:key='Id' class="itemCard">
+			<mp-slideview buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap" id='{{item.id}}' data-index='{{index}}'>
+				<view class="weui-slidecell cell">
+					<checkbox checked="{{item.checked}}" bindtap="checkBoxClick" data-index='{{index}}'/>
+					<image class="itemImage" src="{{item.productImageSrc}}"></image>
+					<view class="itemText">
+						<label class="lableTitle">{{item.productName}}</label>
+						<label class="lableSmall">{{'￥：'+item.priceTotal}}</label>
+						<view class="itemNumView">
+							<mp-num height='60rpx' width="70rpx" courseCount='{{item.number}}' bind:numChangeEvent='numChanged' itemId='{{item.id}}' data-index='{{index}}'></mp-num>
+						</view>
+					</view>
+				</view>
+			</mp-slideview>	
+		</view>
+		<view class="bottomFixedView">
+		  	<checkbox class="checkBoxAllChecked" checked="{{checkedAll}}" bindtap="checkAllChanged">全选</checkbox >
+				<view class="bottomRight">
+				  <label>合计:</label>
+					<label class="totalPrice">￥:{{sumedPrice}}</label>
+					<view>结算</view>
+				</view>
+		</view>
+	</view>
+	<view class="empty-shoppingCart" wx:else>
+		<view class="empty-icon">
+			<view class="iconfont icon-empty-shoppingCart"></view>
+		</view>
+		<view>空空如也</view>
+		<view class="go-shopping-button" bindtap="goShopping">Go Shopping</view>
+	</view>
+</view>

@@ -1,0 +1,26 @@
+.choosenumbox{
+  display: flex;
+  border-radius: 10rpx;
+  border: 1rpx solid #cfcfcf;
+}
+.choosenumbox view{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.del{
+  font-size: large;
+  color: #616161;
+}
+.add{
+font-size:large;
+ color: #616161;
+}
+.num{
+  border-left:1rpx solid #cfcfcf;
+  border-right: 1rpx solid #cfcfcf;
+}
+.num input{
+  font-size: medium;
+  text-align: center;
+}
