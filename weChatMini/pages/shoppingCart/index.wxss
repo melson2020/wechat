@@ -133,5 +133,9 @@ checkbox .wx-checkbox-input {
   margin-left: 20rpx;
 }
 
+.toptip{
+  border-radius: 0;
+}
+
 
 

@@ -2,7 +2,7 @@
 //获取应用实例
 const app = getApp()
 const http = app.myRequest()
-var floatObj=require('../../utils/floatObj.js')
+var floatObj = require('../../utils/floatObj.js')
 Page({
   data: {
     selectedProd: {},
@@ -10,8 +10,9 @@ Page({
     recommendList: [],
     productionList: [],
     num: 1,
-    show:false,
+    show: false,
     adding: false,
+    hasLogin: false,
     buttons: [{
         className: 'halfScreenButton',
         text: '1',
@@ -22,16 +23,29 @@ Page({
         text: '2',
         value: 1
       }
-    ]
+    ],
+    dialogContent: "",
+    dialogButtons: [{
+      text: '取消',
+      type:0
+    }, {
+      text: '登陆',
+      type:1
+    }],
+    dialogShow: false
   },
   onReady: function () {
     var that = this
     that.loadRecommendList()
     that.loadProductionList()
   },
-  onShow:function(){
-    var that=this
-    that.setData({'show':false})
+  onShow: function () {
+    var that = this
+    let userInfo = app.globalData.userInfo ? true : false
+    that.setData({
+      'show': false,
+      'hasLogin': userInfo
+    })
   },
   loadRecommendList: function () {
     let that = this
@@ -59,19 +73,37 @@ Page({
   },
   edditShoppings: function (option) {
     var that = this
-    var num = that.data.num
-    var selectedId = option.currentTarget.id
-    var selectedProds = that.data.productionList.filter((item) => {
-      return item.id == selectedId
-    })
-    if (selectedProds.length >= 0) {
-      let totalPrice = floatObj.multiply(selectedProds[0].price, num)
-      that.setData({
-        'show': true,
-        'selectedProd': selectedProds[0],
-        'selectedProdTotalPrice': totalPrice
+    let userInfo = app.globalData.userInfo&&wx.getStorageSync('token')
+    if (userInfo) {
+      var num = that.data.num
+      var selectedId = option.currentTarget.id
+      var selectedProds = that.data.productionList.filter((item) => {
+        return item.id == selectedId
       })
+      if (selectedProds.length >= 0) {
+        let totalPrice = floatObj.multiply(selectedProds[0].price, num)
+        that.setData({
+          'show': true,
+          'selectedProd': selectedProds[0],
+          'selectedProdTotalPrice': totalPrice
+        })
+      }
+    } else {
+        that.setData({'dialogShow':true,'dialogContent':'是否登陆'})
     }
+  },
+  tapDialogButton:function (e) {
+     var that=this
+     let type= e.detail.item.type
+     if(type===1){
+      wx.switchTab({
+        url: '../userCenter/index',
+        success: (res) => {
+           console.log('转跳至用户页面', res)
+        }
+     })
+     }
+     that.setData({'dialogShow':false})
   },
   checkNum: function (res) {
     var that = this
@@ -112,7 +144,7 @@ Page({
       num += 1
     }
     // let totalPrice = selectedProd.price * num
-   let totalPrice= floatObj.multiply(selectedProd.price, num)
+    let totalPrice = floatObj.multiply(selectedProd.price, num)
     that.setData({
       num: num,
       'selectedProdTotalPrice': totalPrice
@@ -163,7 +195,9 @@ Page({
           icon: 'error'
         })
       }
-      that.setData({'show':false})
+      that.setData({
+        'show': false
+      })
     }).catch((error) => {
       that.setData({
         'adding': false

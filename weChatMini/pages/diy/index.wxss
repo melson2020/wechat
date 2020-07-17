@@ -148,3 +148,36 @@
   background-color: black;
   margin: 20rpx;
 }
+
+.empty-icon{
+  display: flex;
+  padding: 30rpx;
+  border-radius: 50%;
+  width:160rpx;
+  height: 160rpx;
+  align-items: center;
+  justify-content: center;
+  border: rgb(187, 222, 243) solid 1px;
+  background-color: rgb(211, 231, 243);
+}
+.go-shopping-button{
+ padding: 20rpx 50rpx;
+ width: auto;
+ text-align: center;
+ background-color:rgb(110, 144, 245);
+ color: wheat;
+ border-radius: 10rpx;
+}
+.empty-shoppingCart{
+  background-color: white;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 1000rpx;
+  color: rgb(138,138,138);
+}
+.empty-shoppingCart view{
+   margin:20rpx;
+}

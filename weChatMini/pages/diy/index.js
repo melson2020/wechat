@@ -12,6 +12,7 @@ Page({
     pageE: '',
     pageF: '',
     canvas: {},
+    canvasInited: false,
     ctx: {},
     boxModule: {
       length: 320,
@@ -20,30 +21,56 @@ Page({
     }, //单位rpx
     boxModulePhixel: {},
     baseArea: 700, //单位rpx
-    piclist: []
+    piclist: [],
+    hasLogin: false
   },
 
   onShow: function () {
     var that = this
-    if (that.data.piclist.length <= 0) {
-      var token = wx.getStorageSync('token')
-      http.postRequest('/diy/picList', {
-        token: token,
-      }).then((res) => {
-        if (res.data.resultStatus === 1) {
-          var restunList = res.data.data
-          var newPic = that.filterPicList(restunList);
-          if (newPic) {
-            restunList.push(newPic)
+    let login = that.checkLoginStatus()
+    console.log(login)
+    if (login) {
+      that.initCanvas()
+      if (that.data.piclist.length <= 0) {
+        var token = wx.getStorageSync('token')
+        http.postRequest('/diy/picList', {
+          token: token,
+        }).then((res) => {
+          if (res.data.resultStatus === 1) {
+            var restunList = res.data.data
+            var newPic = that.filterPicList(restunList);
+            if (newPic) {
+              restunList.push(newPic)
+            }
+            that.setData({
+              'piclist': restunList
+            })
           }
-          that.setData({
-            'piclist': restunList
-          })
-        }
-      }).catch((exception) => {
-        console.log('获取图片列表exception', exception)
-      })
+        }).catch((exception) => {
+          console.log('获取图片列表exception', exception)
+        })
+      }
     }
+  },
+
+  goLogin:function name(params) {
+    wx.switchTab({
+       url: '../userCenter/index',
+       success: (res) => {
+          console.log('转跳至用户页面', res)
+       }
+    })
+ },
+
+  checkLoginStatus: function () {
+    let that = this;
+    let userInfo = app.globalData.userInfo
+    let token=wx.getStorageSync('token')
+    let res=token&&userInfo
+    that.setData({
+      'hasLogin': res
+    })
+    return res
   },
 
   filterPicList: function (piclist) {
@@ -57,13 +84,15 @@ Page({
     return undefined;
   },
 
-  onReady: function () {
+  initCanvas: function () {
     //获取canvas 对象
     var that = this;
-    //初始化底层canvas 并且画出第一张图
-    that.initCanvasImage()
-    that.initCanvasLayer()
-
+    if (!that.data.canvasInited) {
+      //初始化底层canvas 并且画出第一张图
+      that.initCanvasImage()
+      that.initCanvasLayer()
+      that.setData({'canvasInited':true})
+    }
   },
 
   initCanvasImage: function () {
@@ -221,7 +250,7 @@ Page({
     var that = this
     var canvas = that.data.canvas
     var ctx = that.data.ctx
-    console.log('drawPic 的canvas 对象',canvas)
+    console.log('drawPic 的canvas 对象', canvas)
     return new Promise(function (resolve, reject) {
       wx.getImageInfo({
         src: path,

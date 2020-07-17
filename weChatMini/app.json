@@ -4,7 +4,8 @@
     "pages/userCenter/index",
     "pages/shoppingCart/index",
     "pages/shopCenter/index",
-    "pages/order/index"
+    "pages/order/index",
+    "pages/createOrder/index"
   ],
   "permission": {
     "scope.userLocation": {

@@ -25,7 +25,7 @@
 		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.11.2",
+	"libVersion": "2.11.3",
 	"appid": "wxaa1e0c3c3f43f6a7",
 	"projectname": "ShisanRoad",
 	"debugOptions": {

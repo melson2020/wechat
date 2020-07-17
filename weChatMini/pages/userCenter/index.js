@@ -50,7 +50,7 @@ Page({
           fail(res) {
             wx.getUserInfo({
               success(userInfo) {
-                wechatLogin(userInfo)
+                that.wechatLogin(userInfo)
               }
             })
           }

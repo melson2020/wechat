@@ -28,6 +28,10 @@
 			</block>
 		</view>
 	</view>
+  
+  <mp-dialog title="未登陆" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{dialogButtons}}">
+    <view>{{dialogContent}}</view>
+  </mp-dialog>
 
  <!--半屏弹窗-->
 	<view class="fadeIn" wx:if="{{show}}">
@@ -63,7 +67,6 @@
 			   <view class="halfScreenButtonLeft" bindtap="addToShoppingCart">加入购物车</view>
 				 <view class="halfScreenButtonRight" bindtap="pay">结算</view>
 			</view>
-		
 		</view>
 	</view>
 </view>
