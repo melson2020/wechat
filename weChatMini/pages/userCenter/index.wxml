@@ -70,7 +70,7 @@
 					<view class="weui-cell ">
 						<view class="weui-cell__bd">
 							<textarea name='address' class="weui-textarea" placeholder="请填写收货地址" rows="3" value="{{deliverInfo.address}}" />
-							</view>
+						</view>
 		  		</view>
 						<view class="weui-form__tips-area">
 	          	<view class="weui-form__tips">		    

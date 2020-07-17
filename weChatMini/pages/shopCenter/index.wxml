@@ -2,15 +2,9 @@
 <view class="page">
 	<!--顶部轮播图片-->
 	<view class="topShows">
-		<swiper indicator-dots="true" autoplay="true" interval="3000" duration="500">
-			<swiper-item>
-				<image class="shopTitieImage" src="../../images/shopTitlePics/1.png"></image>
-			</swiper-item>
-			<swiper-item>
-				<image class="shopTitieImage" src="../../images/shopTitlePics/2.png"></image>
-			</swiper-item>
-			<swiper-item>
-				<image class="shopTitieImage" src="../../images/shopTitlePics/1.png"></image>
+		<swiper class="topSwiper" indicator-dots="true" autoplay="true" interval="3000" duration="500">
+			<swiper-item wx:for="{{recommendList}}" wx:key='id'>
+				<image class="shopTitieImage" src="{{item.host+item.src}}"></image>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -18,18 +12,61 @@
 	<view class="shoppingList">
 		<view class="shopListTitle"><label class="weui-label">商品列表</label></view>
 		<view class="list">
-    <block wx:for="{{commodityList}}" wx:key="*this">
-       <view class="shopCard">
-         <image class="shopImage" src="../../images/goods/phone.png"></image>
-         <view class="shopCardText">
-            <label class="commodityName">iphone 6</label>
-            <label class="commodityPrice">3799 元</label>
-         </view>
-         <view class="shopAddButton">
-           <image class="shopAddButtonImage" src="../../images/add-to.png"> </image>        
-         </view>
-      </view>
-      </block>   
+			<block wx:for="{{productionList}}" wx:key="id">
+				<view class="shopCard">
+					<image class="shopImage" src="{{item.host+item.src}}"></image>
+					<view class="shopCardText">
+						<label class="commodityName">{{item.name}}</label>
+						<label class="commodityPrice">{{item.price+" "+item.priceUnit}}</label>
+						<label class="commodityDescription">{{item.description}}</label>
+					</view>
+					<view class="shopAddButton">
+						<!-- <image class="shopAddButtonImage" src="../../images/add-to.png"> </image> -->
+						<view class="iconfont icon-add" bindtap="edditShoppings" id="{{item.id}}"></view>
+					</view>
+				</view>
+			</block>
+		</view>
+	</view>
+  
+  <mp-dialog title="未登陆" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{dialogButtons}}">
+    <view>{{dialogContent}}</view>
+  </mp-dialog>
+
+ <!--半屏弹窗-->
+	<view class="fadeIn" wx:if="{{show}}">
+		<view class="weui-mask"></view>
+		<view class="weui-half-screen-dialog myhalf">
+			<view class="weui-half-screen-dialog__hd" style="padding-left:32rpx;margin:0;border-bottom:lightgray solid 1px">
+				<view class="weui-half-screen-dialog__hd__side" bindtap="close">
+					<a class="weui-icon-btn">关闭<i class="weui-icon-close-thin"></i></a>
+				</view>
+				<view class="weui-half-screen-dialog__hd__main">
+					<strong class="weui-half-screen-dialog__title halfScreenTitle">{{selectedProd.name}}</strong>
+				</view>
+			</view>
+			<view class="weui-half-screen-dialog__bd" style="padding:20rpx 32rpx">
+				<view class="halfScreenDesc">
+					<image class="halfScreenImage" src="{{selectedProd.host+selectedProd.src}}"></image>
+					<view class="halfScreenDescRight">
+						<view class='choosenumbox'>
+							<view class='del' data-type='1' bindtap='countNum'>-</view>
+							<view class='num'>
+								<input type='number' bindblur='checkNum' bindinput='getInputNum' value="{{num}}"></input>
+							</view>
+							<view class='add' data-type='2' bindtap='countNum'>+</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="totalPrice">
+			  {{selectedProdTotalPrice}}
+			</view>
+		  <!-- <mp-loading show='{{adding}}' type="circle" tips='添加中' wx:if='{{adding}}'></mp-loading> -->
+			<view class="halfScreenButton">	  
+			   <view class="halfScreenButtonLeft" bindtap="addToShoppingCart">加入购物车</view>
+				 <view class="halfScreenButtonRight" bindtap="pay">结算</view>
+			</view>
 		</view>
 	</view>
 </view>

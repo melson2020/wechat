@@ -42,7 +42,7 @@ Page({
                     })
                   }
                 }).catch((error) => {
-                  console.log('getUserInfo sucesss exception', error)
+                  console.log('getUserInfo exception', error)
                 })
               },
             })
@@ -50,7 +50,7 @@ Page({
           fail(res) {
             wx.getUserInfo({
               success(userInfo) {
-                wechatLogin(userInfo)
+                that.wechatLogin(userInfo)
               }
             })
           }
@@ -157,7 +157,6 @@ Page({
     })
   },
   navigateToOrder:function(e){
-    console.log(e.currentTarget.id)
     var selectedId=e.currentTarget.id
     wx.navigateTo({
       url: '/pages/order/index',

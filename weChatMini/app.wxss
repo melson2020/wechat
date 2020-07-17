@@ -1,5 +1,5 @@
 /**app.wxss**/
-@import './style/weui.wxss';
+@import'./miniprogram_npm/weui-miniprogram/weui-wxss/dist/style/weui.wxss';
 @import './style/iconfont.wxss';
 .container {
   height: 100%;
@@ -7,13 +7,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 200rpx 0;
   box-sizing: border-box;
 }
 .page{
   height: 100%;
-  background-color:white;
-  width: 100%;
+  background-color:whitesmoke;
+  width: 100vw;
 }
 
 

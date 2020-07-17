@@ -1,0 +1,7 @@
+	<view class='choosenumbox'>
+		<view class='del' data-type='1' style="height:{{height}};width:{{width}}" bindtap='countNum' disabled="{{minusStatus}}" plain='ture'>-</view>
+		<view class='num' style="height:{{height}};width:{{width}}">
+			<input type='number' bindblur='checkNum' bindinput='getInputNum' value="{{courseCount}}" disabled="{{true}}"></input>
+		</view>
+		<view class='add' data-type='2' style="height:{{height}};width:{{width}}" bindtap='countNum'>+</view>
+	</view>
