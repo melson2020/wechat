@@ -162,6 +162,7 @@ Page({
   },
   addPicture: function () {
     var that = this
+    let uploadUrl=app.globalData.uploadUrl
     wx.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
@@ -169,11 +170,14 @@ Page({
       success(res) {
         // tempFilePath可以作为img标签的src属性显示图片
         const tempFilePaths = res.tempFilePaths
+        wx.showLoading({
+          title: '上传中',
+        })
         wx.getStorage({
           key: 'token',
           success: (token) => {
             wx.uploadFile({
-              url: 'http://192.168.43.209:8080/wechatMini/upload/picture',
+              url: uploadUrl,
               filePath: tempFilePaths[0],
               name: 'file',
               formData: {
@@ -181,7 +185,6 @@ Page({
               },
               success(res) {
                 const data = JSON.parse(res.data)
-                console.log('上传成功', data)
                 if (data.resultStatus === 1) {
                   var newp = data.data
                   var picList = that.data.piclist;
@@ -196,6 +199,9 @@ Page({
                     'piclist': picList
                   })
                 }
+              },
+              complete(){
+                wx.hideLoading()
               }
             })
           }

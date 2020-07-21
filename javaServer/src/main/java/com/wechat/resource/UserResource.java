@@ -3,6 +3,7 @@ package com.wechat.resource;
 import com.wechat.CacheKey;
 import com.wechat.base.BaseResource;
 import com.wechat.base.Result;
+import com.wechat.base.ResultType;
 import com.wechat.entity.AppInfo;
 import com.wechat.entity.DeliveryInfo;
 import com.wechat.entity.User;
@@ -14,6 +15,7 @@ import com.wechat.service.IUser;
 import com.wechat.utils.CacheUtil;
 import com.wechat.utils.JsonToObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,6 +89,26 @@ public class UserResource extends BaseResource{
          }catch (Exception ex){
              result.setResultStatus(-1);
              result.setMessage("Error:"+ex.getMessage());
+         }
+         return result;
+     }
+
+     @RequestMapping(value = "/delivery",method = RequestMethod.POST)
+      public Result GetDeliveryInfo(@RequestBody PostDataVo vo,HttpServletRequest request){
+         if(StringUtils.isEmpty(vo.getToken())){
+             return this.GenerateResult(ResultType.AccessNeeded);
+         }
+         User user=userService.findByToken(vo.getToken());
+         if(user==null){
+             return this.GenerateResult(ResultType.AccessDenied);
+         }
+         Result result=new Result();
+         DeliveryInfo deliveryInfo=deliveryInfoService.findByNickName(user.getNickName());
+         if(deliveryInfo==null){
+             result.setResultStatus(2);
+             result.setMessage("no deliveryInfo");
+         }else {
+             result.setData(deliveryInfo);
          }
          return result;
      }

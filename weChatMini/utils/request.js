@@ -1,6 +1,6 @@
 class request {
-  constructor() {
-    this._baseUrl = 'http://192.168.43.209:8080/wechatMini';
+  constructor(url) {
+    this._baseUrl = url;
     this._token = wx.getStorageSync('token');
     // this._header = {'Authorization': 'Bearer ' + token}
   }
@@ -52,7 +52,7 @@ class request {
             reject(res)
           }
         }),
-        fail: (res => {
+        fail: (res => {       
           reject(res)
         })
       })

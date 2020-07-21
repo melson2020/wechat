@@ -36,12 +36,13 @@ Page({
   },
   onReady: function () {
     var that = this
-    that.loadRecommendList()
-    that.loadProductionList()
+   
   },
   onShow: function () {
     var that = this
     let userInfo = app.globalData.userInfo ? true : false
+    that.loadRecommendList()
+    that.loadProductionList()
     that.setData({
       'show': false,
       'hasLogin': userInfo

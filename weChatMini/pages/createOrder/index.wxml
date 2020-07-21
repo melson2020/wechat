@@ -1,13 +1,17 @@
 <view class='page'>
+   <mp-toptips msg="{{toptip.msg}}" type="{{toptip.type}}" show="{{toptip.show}}" ext-class='toptip'></mp-toptips>
 	<view class="mianArea">
 		<view class="pageTitle">订单确认</view>
 		<view class="deliveryArea">
-			<view class="deliveryInfo">
-				<label>施继良</label>
-				<label>（18351102525）</label>
-				<label>江苏省苏州市工业园区展业路18号</label>
+			<view class="deliveryInfo" wx:if='{{hasdeliveryInfo}}'>
+				<label>{{deliveryInfo.userName}}</label>
+				<label>（{{deliveryInfo.phoneNumber}}）</label>
+				<label>{{deliveryInfo.address}}</label>
 			</view>
-			<view class="iconfont icon-editor"></view>
+			<view class="deliveryInfo message" wx:else>
+				请去设置配送信息
+			</view>
+			<view class="iconfont icon-editor" bindtap="goLogin"></view>
 		</view>
 		<view class="productListArea">
 			<view wx:for='{{checkedShoppingCartList}}' wx:key='id' class="productCard">
@@ -16,21 +20,21 @@
 					<label class="productName">{{item.productName}}</label>
 					<label class="productPrice">{{item.price}}</label>
 					<view class="productTotalPrice">
-                       <label>x {{item.number}}</label>
-                       <label class='redPrice'>￥ {{item.priceTotal}}</label>
-                    </view>
+						<label>x {{item.number}}</label>
+						<label class='redPrice'>￥ {{item.priceTotal}}</label>
+					</view>
 				</view>
 			</view>
 		</view>
-        <view class="message">
-           <textarea name='message' class="weui-textarea" placeholder="买家留言"/>
-        </view>
+		<view class="message">
+			<textarea name='message' class="weui-textarea" placeholder="买家留言" />
+			</view>
 		<view class="fixedView">
             <view>
              合计:
              <label class="redPrice">￥{{totalPrice}}</label>
             </view>	
-			<view class="submitButton">提交</view>
+			<view class="submitButton" bindtap="sumbit">提交</view>
 		</view>
 	</view>
 </view>

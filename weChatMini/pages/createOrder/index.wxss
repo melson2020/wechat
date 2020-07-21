@@ -23,6 +23,10 @@
    font-size: small;
    color: rgb(192, 190, 190);
 }
+.message{
+   display: flex;
+   align-items: center;
+}
 
 .fixedView{
    position: fixed;

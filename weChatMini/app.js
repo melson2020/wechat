@@ -4,9 +4,12 @@ import request from './utils/request.js'
 App({
   globalData: {
     userInfo: null,
+    baseUrl:'http://192.168.43.209:8080/wechatMini',
+    uploadUrl:'http://192.168.43.209:8080/wechatMini/upload/picture'
   },
   myRequest(){
-    return new request();
+    let that=this
+    return new request(this.globalData.baseUrl);
   },
   onLaunch (options) {
     // Do something initial when launch,
