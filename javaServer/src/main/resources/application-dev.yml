@@ -15,3 +15,6 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
+  Host:
+    hostName: https://www.melson.top/ftp
+    realPath: C:\Melson\ftp

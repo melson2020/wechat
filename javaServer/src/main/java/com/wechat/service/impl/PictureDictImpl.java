@@ -5,6 +5,7 @@ import com.wechat.dao.IPictureDictDao;
 import com.wechat.entity.PictureDict;
 import com.wechat.service.IPictureDict;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,10 @@ import java.util.List;
 public class PictureDictImpl extends AbstractService<PictureDict> implements IPictureDict {
     @Autowired
     private IPictureDictDao pictureDictDao;
+    @Value("${spring.Host.hostName}")
+    private String baseHost;
+    @Value("${spring.Host.realPath}")
+    private String realPath;
     @Override
     public JpaRepository<PictureDict, String> getRepository() {
         return pictureDictDao;
@@ -34,8 +39,7 @@ public class PictureDictImpl extends AbstractService<PictureDict> implements IPi
 
     @Override
     public PictureDict SavePic(MultipartFile multipartFile,String openId) {
-        String realPath="D:\\Resource\\weChatMini\\images";
-        File pathFile=new File(realPath);
+        File pathFile=new File(this.realPath);
         if(!pathFile.exists()){
             pathFile.mkdir();
         }
@@ -51,7 +55,7 @@ public class PictureDictImpl extends AbstractService<PictureDict> implements IPi
         if(saveToDisk){
             PictureDict p=new PictureDict();
             p.setOpenId(openId);
-            p.setHost("http://192.168.43.209:8080/ftp/");
+            p.setHost(this.baseHost);
             p.setPath(picName);
             p.setCreateDate(new Date());
             PictureDict saved=pictureDictDao.save(p);
@@ -68,8 +72,7 @@ public class PictureDictImpl extends AbstractService<PictureDict> implements IPi
     @Override
     public Boolean deletePic(PictureDict dict) {
        pictureDictDao.delete(dict);
-       String realPath="D:\\Resource\\weChatMini\\images";
-       String filePath=realPath+"\\"+dict.getPath();
+       String filePath=this.realPath+"\\"+dict.getPath();
        File file=new File(filePath);
        if(file.exists()){return file.delete();}else {return true;}
     }

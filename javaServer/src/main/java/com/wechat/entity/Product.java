@@ -1,5 +1,7 @@
 package com.wechat.entity;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -20,6 +22,7 @@ public class Product {
     private String src;
     private String description;
     private String priceUnit;
+
 
     public String getPriceUnit() {
         return priceUnit;
@@ -92,4 +95,5 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
