@@ -15,11 +15,14 @@ import com.wechat.utils.JsonToObjectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,8 @@ public class ProductResource extends BaseResource {
     private IUser userService;
     @Autowired
     private IShoppingCart shoppingCartService;
+    @Value("${spring.Host.hostName}")
+    private String baseHost;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/allProductList")
@@ -46,8 +51,13 @@ public class ProductResource extends BaseResource {
             logger.debug("Rest Call: /product/allProductList ...");
         }
         long t1 = new Date().getTime();
-        List<Product> users = productService.QueryAll();
-        Result result = new Result(users);
+        List<Product> productList = productService.QueryAll();
+        List<Product> products=new ArrayList<>();
+        for(Product p:productList){
+            p.setHost(baseHost);
+            products.add(p);
+        }
+        Result result = new Result(products);
         long t2 = new Date().getTime();
         System.out.println("GET Rest Call: /product/allProductList ..." + (t2 - t1));
         return result;
@@ -61,7 +71,12 @@ public class ProductResource extends BaseResource {
         }
         long t1 = new Date().getTime();
         List<Product> productList = productService.FindByRecommend();
-        Result result = new Result(productList);
+        List<Product> products=new ArrayList<>();
+        for(Product p:productList){
+            p.setHost(baseHost);
+            products.add(p);
+        }
+        Result result = new Result(products);
         long t2 = new Date().getTime();
         System.out.println("GET Rest Call: /product/recommendList ..." + (t2 - t1));
         return result;
