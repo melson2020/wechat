@@ -59,7 +59,7 @@ public class CacheUtil {
     }
 
     /**
-     * 通用函数，用去获取缓存中的数据
+     * 通用函数，用于获取缓存中的数据
      * @param elementKey element key value
      * @param cls
      * @param <T> 数据类型
