@@ -33,8 +33,8 @@
 
 		<view class="picDesigin">
 			<!--模拟图层 cutImg为底部图像 layer模拟遮罩层-->
-			<canvas type='2d' class="holePage" id="cutImg" force-use-old-canvas="true">
-				<canvas type='2d' class="holePage" id='layer' force-use-old-canvas="true"></canvas>
+			<canvas type='2d' class="holePage" id="cutImg" >
+				<canvas type='2d' class="holePage" id='layer'></canvas>
 			</canvas>
 		</view>
 

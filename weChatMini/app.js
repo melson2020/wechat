@@ -4,8 +4,8 @@ import request from './utils/request.js'
 App({
   globalData: {
     userInfo: null,
-    baseUrl:'http://192.168.43.209:8080/wechatMini',
-    uploadUrl:'http://192.168.43.209:8080/wechatMini/upload/picture'
+    baseUrl:'https://www.melson.top/tServer',
+    uploadUrl:'https://www.melson.top/tServer/upload/picture'
   },
   myRequest(){
     let that=this

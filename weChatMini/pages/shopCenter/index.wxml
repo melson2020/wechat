@@ -4,7 +4,7 @@
 	<view class="topShows">
 		<swiper class="topSwiper" indicator-dots="true" autoplay="true" interval="3000" duration="500">
 			<swiper-item wx:for="{{recommendList}}" wx:key='id'>
-				<image class="shopTitieImage" src="{{item.host+item.src}}"></image>
+				<image class="shopTitieImage" src="{{item.host+item.src}}" mode="aspectFit"></image>
 			</swiper-item>
 		</swiper>
 	</view>
